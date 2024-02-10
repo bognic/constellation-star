@@ -254,7 +254,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8110463771413759036}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7754588158000685362}
+        m_TargetAssemblyTypeName: PlayerBox, Assembly-CSharp
+        m_MethodName: RequestKickPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2634519713923328706
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 750680905126351378}
-  - component: {fileID: 2083172282909331180}
+  - component: {fileID: 7754588158000685362}
   m_Layer: 0
   m_Name: PlayerBox
   m_TagString: Untagged
@@ -292,7 +304,7 @@ RectTransform:
   m_AnchoredPosition: {x: 250.3912, y: -26.8039}
   m_SizeDelta: {x: 500.7836, y: 53.6071}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2083172282909331180
+--- !u!114 &7754588158000685362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -301,9 +313,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2634519713923328706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a0a71c725b5c344b89a2897e6c4deb, type: 3}
+  m_Script: {fileID: 11500000, guid: 55e82360f4792d04b9da1f8b68998e0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerText: {fileID: 2426579810888921248}
 --- !u!1 &6472286180029622751
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,7 +16,7 @@ public class ControllerSceneUI : MonoBehaviour
             button.onClick.AddListener(() => OnControllerButtonPressed(index));
         }
 
-        NetworkManager.Singleton.OnClientDisconnectCallback += OnDisconnectedFromServer;
+        NetworkClientController.Instance.OnDisconnected += OnDisconnected;
     }
 
     // Update is called once per frame
@@ -26,21 +25,24 @@ public class ControllerSceneUI : MonoBehaviour
 
     }
 
-    public void OnExitButtonPressed()
+    private void OnExitButtonPressed()
     {
-        NetworkManager.Singleton.OnClientDisconnectCallback -= OnDisconnectedFromServer;
-        NetworkManager.Singleton.Shutdown();
+        Destroy(NetworkClientController.Instance.gameObject);
         SceneManager.LoadScene("Scenes/ClientScene");
     }
 
-    public void OnControllerButtonPressed(int buttonIndex)
+    private void OnControllerButtonPressed(int buttonIndex)
     {
-        NetworkController.Instance.ClientSendPlayerInputRequest(buttonIndex.ToString());
+        NetworkClientController.Instance.SendInputToServer(buttonIndex.ToString());
     }
 
-    private void OnDisconnectedFromServer(ulong obj)
+    private void OnDataReceived()
     {
-        print($"Disconnected from server! Parameter: {obj}");
+
+    }
+    private void OnDisconnected()
+    {
+        print("heeeere");
         OnExitButtonPressed();
     }
 }
