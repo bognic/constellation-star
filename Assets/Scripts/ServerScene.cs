@@ -32,7 +32,7 @@ public class ServerScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //transform.GetComponent<PeerUDP>().Send(IPText.text);
     }
 
     public void OnSwitchToClientButtonPressed()

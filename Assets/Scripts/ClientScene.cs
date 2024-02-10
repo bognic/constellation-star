@@ -19,7 +19,7 @@ public class ClientScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //var result = transform.GetComponent<PeerUDP>().GetDataInReceive()
     }
 
     public void OnManualIPJoinButtonPressed()

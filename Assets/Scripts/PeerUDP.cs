@@ -10,6 +10,8 @@ public class PeerUDP : MonoBehaviour
     public const int UDPPort = 4297;
     public const string BroadcastIP = "255.255.255.255";
 
+    public Action<string> OnUDPDataReceived { get; set; }
+
     private UdpClient _mainUdpClient;
     private IAsyncResult _udpResult;
 
@@ -46,6 +48,8 @@ public class PeerUDP : MonoBehaviour
         string message = Encoding.ASCII.GetString(bytes);
         _udpResult = _mainUdpClient.BeginReceive(GetDataInReceive, new());
         print($"UDP: Received message {message}");
+        if (OnUDPDataReceived is not null)
+            OnUDPDataReceived.Invoke(message);
     }
     
 }

@@ -627,7 +627,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -4.7010193, y: -18.392944}
+  m_AnchoredPosition: {x: -4.70105, y: -18.392944}
   m_SizeDelta: {x: -67.5, y: 418.7859}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &326729643
@@ -3860,6 +3860,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1891063889}
   - component: {fileID: 1891063890}
+  - component: {fileID: 1891063891}
   m_Layer: 0
   m_Name: UI Controller
   m_TagString: Untagged
@@ -3898,7 +3899,19 @@ MonoBehaviour:
   ManualIPJoinButton: {fileID: 1358956243}
   ManualIPInputField: {fileID: 2002131868}
   ServerVBoxList: {fileID: 148161023}
-  ServerBoxPrefab: {fileID: 2634519713923328706, guid: de19531954a0802499301220353ecd79, type: 3}
+  ServerBoxPrefab: {fileID: 2083172282909331180, guid: de19531954a0802499301220353ecd79, type: 3}
+--- !u!114 &1891063891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891063887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82af3cd827f28545981c17f34eeea25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2002131864
 GameObject:
   m_ObjectHideFlags: 0
