@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1344956858635358525}
   - component: {fileID: 8011753745205416638}
   - component: {fileID: 3689253399473024757}
+  - component: {fileID: 4897372452857060160}
   m_Layer: 0
   m_Name: NetworkServerControllerPrefab
   m_TagString: Untagged
@@ -45,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93734e6475ce5054a84ba13842dda4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerSceneUIController: {fileID: 0}
 --- !u!114 &3689253399473024757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,3 +58,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc59a661c401064eacdceee07e18a9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4897372452857060160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7664598858433366973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82af3cd827f28545981c17f34eeea25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _broadcastInterval: 3

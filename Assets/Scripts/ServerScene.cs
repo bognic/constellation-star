@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using TMPro;
 using UnityEngine;
@@ -6,42 +9,52 @@ using UnityEngine.SceneManagement;
 public class ServerScene : MonoBehaviour
 {
     [SerializeField] private TMP_Text IPText;
+    [SerializeField] private TMP_Text PlayerCountText;
     [SerializeField] private GameObject PlayerVBoxList;
     [SerializeField] private PlayerBox PlayerBoxPrefab;
+
+    private string _ip = string.Empty;
 
     // Start is called before the first frame update
     void Start()
     {
-        IPText.text = string.Empty;
-        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (IPAddress ip in host.AddressList)
+        try
         {
-            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-            {
-                IPText.text = "IP: " + ip.ToString();
-            }
+            _ip = Dns.GetHostEntry(string.Empty).AddressList.FirstOrDefault(x => x.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).ToString();
+            if (!string.IsNullOrWhiteSpace(_ip))
+                IPText.text = "IP: " + _ip;
+        }
+        catch (Exception ex)
+        {
+            print(ex);
         }
         if (string.IsNullOrWhiteSpace(IPText.text))
-            IPText.text = "IP unknown!";
+            IPText.text = "IP: Unknown!";
 
-        NetworkServerController.Instance.OnClientConnected += UpdatePlayers;
+        NetworkServerController.Instance.OnClientConnected += OnClientConnected;
         NetworkServerController.Instance.OnClientDisconnected += UpdatePlayers;
         NetworkServerController.Instance.OnClientMessageReceived += OnClientMessageReceived;
+        NetworkServerController.Instance.InitUDP(_ip);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnClientConnected(ushort id)
     {
-        //transform.GetComponent<PeerUDP>().Send(IPText.text);
+        NetworkServerController.Instance.SendMessageToClient(id, "init_controller");
+        UpdatePlayers();
     }
-
-    public void OnSwitchToClientButtonPressed()
+    private void OnClientMessageReceived(ushort id, string data)
     {
-        Destroy(NetworkServerController.Instance.gameObject);
-        SceneManager.LoadScene("Scenes/ClientScene");
+        // parse data
+        Dictionary<string, int> dict = new Dictionary<string, int>()
+        {
+            { "0", 0 },
+            { "1", 1 },
+            { "2", 2 },
+            { "3", 3 }
+        };
+        print($"Server: Client {id} requests input code: {dict.GetValueOrDefault(data, -1)}");
     }
-
-    public void UpdatePlayers()
+    private void UpdatePlayers()
     {
         for (int i = 0; i < PlayerVBoxList.transform.childCount; i++)
         {
@@ -51,6 +64,7 @@ public class ServerScene : MonoBehaviour
         }
 
         ushort[] ids = NetworkServerController.Instance.GetAllConnectedClientIDs();
+        PlayerCountText.text = $"Connected players ({ids.Length}):";
         foreach (ushort id in ids)
         {
             PlayerBox box = Instantiate(PlayerBoxPrefab);
@@ -60,8 +74,9 @@ public class ServerScene : MonoBehaviour
         }
     }
 
-    public void OnClientMessageReceived(ushort id, string data)
+    public void OnSwitchToClientButtonPressed()
     {
-        print("yaaas");
+        Destroy(NetworkServerController.Instance.gameObject);
+        SceneManager.LoadScene("Scenes/ClientScene");
     }
 }
