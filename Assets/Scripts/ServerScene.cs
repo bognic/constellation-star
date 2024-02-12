@@ -13,7 +13,7 @@ public class ServerScene : MonoBehaviour
     void Start()
     {
         IPText.text = string.Empty;
-        IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+        IPHostEntry host = Dns.GetHostEntry(string.Empty);
         foreach (IPAddress ip in host.AddressList)
         {
             if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
