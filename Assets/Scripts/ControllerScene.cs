@@ -16,13 +16,10 @@ public class ControllerSceneUI : MonoBehaviour
             button.onClick.AddListener(() => OnControllerButtonPressed(index));
         }
 
-        NetworkClientController.Instance.OnDisconnected += OnDisconnected;
-    }
+        NetworkClientController.Instance.OnDisconnected += OnExitButtonPressed;
+        //NetworkClientController.Instance.OnMessageReceived += OnMessageReceived;
 
-    // Update is called once per frame
-    void Update()
-    {
-
+        print("Controller: Data is: " + NetworkClientController.Instance._controllerLayoutData);
     }
 
     private void OnExitButtonPressed()
@@ -34,15 +31,5 @@ public class ControllerSceneUI : MonoBehaviour
     private void OnControllerButtonPressed(int buttonIndex)
     {
         NetworkClientController.Instance.SendInputToServer(buttonIndex.ToString());
-    }
-
-    private void OnDataReceived()
-    {
-
-    }
-    private void OnDisconnected()
-    {
-        print("heeeere");
-        OnExitButtonPressed();
     }
 }

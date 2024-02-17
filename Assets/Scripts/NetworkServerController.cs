@@ -2,7 +2,6 @@ using DarkRift;
 using DarkRift.Server;
 using System;
 using System.Linq;
-using System.Net.Sockets;
 using UnityEngine;
 
 public class NetworkServerController : MonoBehaviour
@@ -11,9 +10,10 @@ public class NetworkServerController : MonoBehaviour
 
     private const string _serverConfigFilePath = "Assets/Config/server.config";
     private MainThreadRunner _runner;
+    private PeerUDP _peerUDP;
     private DarkRiftServer _server;
 
-    public Action OnClientConnected { get; set; }
+    public Action<ushort> OnClientConnected { get; set; }
     public Action OnClientDisconnected { get; set; }
     public Action<ushort, string> OnClientMessageReceived { get; set; }
 
@@ -46,6 +46,10 @@ public class NetworkServerController : MonoBehaviour
         _server.Dispose();
         print("DarkRift server disposed.");
     }
+    public void InitUDP(string ip)
+    {
+        transform.GetComponent<PeerUDP>().InitAsServer(ip);
+    }
 
     private void ClientManager_ClientConnected(object sender, ClientConnectedEventArgs e)
     {
@@ -57,7 +61,7 @@ public class NetworkServerController : MonoBehaviour
             _runner.RunOnMainThread.Enqueue(() =>
             {
                 if (OnClientConnected is not null)
-                    OnClientConnected.Invoke();
+                    OnClientConnected.Invoke(e.Client.ID);
             });
         }
         catch (Exception ex)

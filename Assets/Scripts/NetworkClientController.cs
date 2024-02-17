@@ -2,7 +2,7 @@ using DarkRift;
 using DarkRift.Client;
 using System;
 using System.Net;
-using System.Net.Sockets;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class NetworkClientController : MonoBehaviour
@@ -14,6 +14,10 @@ public class NetworkClientController : MonoBehaviour
 
     public Action OnDisconnected { get; set; }
     public Action<string> OnMessageReceived { get; set; }
+    public Action OnControllerLayoutParsed { get; set; }
+    public Action OnControllerLayoutParseFailed { get; set; }
+
+    public string _controllerLayoutData { get; private set; }
 
     void Awake()
     {
@@ -37,17 +41,6 @@ public class NetworkClientController : MonoBehaviour
         _client.Disconnected += Client_Disconnected;
         print("DarkRift client initialized.");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //var ip = new IPEndPoint(IPAddress.Any, 0);
-        //byte[] bytes = _udpClient.Receive(ref ip);
-        //if (bytes != null)
-        //{
-        //    print(bytes);
-        //}
-    }
     private void OnDestroy()
     {
         _client.Disconnect();
@@ -55,20 +48,23 @@ public class NetworkClientController : MonoBehaviour
         print("DarkRift client disposed.");
     }
 
-    public bool TryConnectToIP(string ip)
+    public async Task<bool> TryConnectToIPAsync(string ip)
     {
         if (IPAddress.TryParse(ip, out IPAddress address))
         {
             try
             {
-                print($"IP {ip} valid. Trying to connect...");
-                _client.Connect(address, tcpPort: PeerUDP.TCPPort, udpPort: PeerUDP.UDPPort, noDelay: true);
-                print("Connected to server!");
+                await Task.Run(() =>
+                {
+                    print($"Client: IP {ip} valid. Trying to connect...");
+                    _client.Connect(address, tcpPort: PeerUDP.TCPPort, udpPort: PeerUDP.UDPPort, noDelay: true);
+                    print("Client: Connected to server!");
+                });
                 return true;
             }
             catch (Exception ex)
             {
-                print("Failed to connect!");
+                print($"Client: Failed to connect to IP: {ip}");
                 print(ex);
             }
         }
@@ -86,7 +82,7 @@ public class NetworkClientController : MonoBehaviour
         using DarkRiftWriter writer = DarkRiftWriter.Create();
         writer.Write(code);
         using Message secretMessage = Message.Create(1337, writer);
-        bool success = _client.SendMessage(secretMessage, SendMode.Reliable);
+        bool success = _client.SendMessage(secretMessage, SendMode.Unreliable);
         if (!success)
         {
             print($"Client: Failed to send message: {code}");
@@ -107,6 +103,25 @@ public class NetworkClientController : MonoBehaviour
             {
                 if (OnMessageReceived is not null)
                     OnMessageReceived.Invoke(messageStr);
+
+                if (messageStr.Contains("init_controller"))
+                {
+                    try
+                    {
+                        // parse data
+                        _controllerLayoutData = messageStr;
+
+                        if (OnControllerLayoutParsed is not null)
+                            OnControllerLayoutParsed.Invoke();
+                    }
+                    catch (Exception ex)
+                    {
+                        print("Controller parse exception");
+                        print(ex);
+                        if (OnControllerLayoutParseFailed is not null)
+                            OnControllerLayoutParseFailed.Invoke();
+                    }
+                }
             });
         }
         catch (Exception ex)
@@ -120,6 +135,7 @@ public class NetworkClientController : MonoBehaviour
         try
         {
             print("Client: Disconnected from server! Reason: " + e.Error);
+            _controllerLayoutData = null;
             _runner.RunOnMainThread.Enqueue(() =>
             {
                 if (OnDisconnected is not null)

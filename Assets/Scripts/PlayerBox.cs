@@ -11,18 +11,6 @@ public class PlayerBox : MonoBehaviour
     private ushort _id;
     private string _name;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void InitPlayer(ushort id, string name)
     {
         _id = id;

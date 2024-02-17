@@ -1222,7 +1222,6 @@ GameObject:
   m_Component:
   - component: {fileID: 943639969}
   - component: {fileID: 943639968}
-  - component: {fileID: 943639970}
   m_Layer: 0
   m_Name: UI Controller
   m_TagString: Untagged
@@ -1243,6 +1242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IPText: {fileID: 269612848}
+  PlayerCountText: {fileID: 701983124}
   PlayerVBoxList: {fileID: 1767982452}
   PlayerBoxPrefab: {fileID: 7754588158000685362, guid: 0ac5d1fa16f0c3742b855384e3e48f85, type: 3}
 --- !u!4 &943639969
@@ -1260,18 +1260,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &943639970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 943639967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d82af3cd827f28545981c17f34eeea25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1426721092
 GameObject:
   m_ObjectHideFlags: 0

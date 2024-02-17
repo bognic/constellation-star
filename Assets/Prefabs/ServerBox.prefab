@@ -254,7 +254,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8110463771413759036}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2083172282909331180}
+        m_TargetAssemblyTypeName: ServerBox, Assembly-CSharp
+        m_MethodName: OnJoinButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2634519713923328706
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,6 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a0a71c725b5c344b89a2897e6c4deb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ServerText: {fileID: 2426579810888921248}
 --- !u!1 &6472286180029622751
 GameObject:
   m_ObjectHideFlags: 0
