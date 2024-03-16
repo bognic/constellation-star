@@ -17,7 +17,7 @@ public class NetworkClientController : MonoBehaviour
     public Action OnControllerLayoutParsed { get; set; }
     public Action OnControllerLayoutParseFailed { get; set; }
 
-    public string _controllerLayoutData { get; private set; }
+    public string _rawControllerLayoutData { get; private set; }
 
     void Awake()
     {
@@ -109,7 +109,7 @@ public class NetworkClientController : MonoBehaviour
                     try
                     {
                         // parse data
-                        _controllerLayoutData = messageStr;
+                        _rawControllerLayoutData = messageStr;
 
                         if (OnControllerLayoutParsed is not null)
                             OnControllerLayoutParsed.Invoke();
@@ -135,7 +135,7 @@ public class NetworkClientController : MonoBehaviour
         try
         {
             print("Client: Disconnected from server! Reason: " + e.Error);
-            _controllerLayoutData = null;
+            _rawControllerLayoutData = null;
             _runner.RunOnMainThread.Enqueue(() =>
             {
                 if (OnDisconnected is not null)

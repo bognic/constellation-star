@@ -42,7 +42,8 @@ public class PeerUDP : MonoBehaviour
     }
     void OnDestroy()
     {
-        _mainUdpClient.Close();
+        if (_mainUdpClient is not null)
+            _mainUdpClient.Close();
         _udpResult = null;
         print("UDP peer disposed.");
     }
